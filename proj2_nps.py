@@ -233,6 +233,19 @@ def get_sites_for_state(state_url):
     return park_instance_list
 
 def construct_unique_key(baseurl,params):
+    '''construct api_key according to the input.
+    Parameters
+    ----------
+    baseurl: string
+        The URL for a state page in mapquest
+    params: dictionary
+        Contains the parameters associated with the API request 
+
+    Returns
+    -------
+    string
+        a string constructed from the baseurl and params
+    '''
     param_strings = []
     connector = '&'
     for k in params.keys():
@@ -263,12 +276,12 @@ def get_nearby_places(site_object):
     return response_dict
 
 def print_nearby_places(map_api_dict):
-    '''Obtain API data from MapQuest API.
+    '''Print nearby places .
 
     Parameters
     ----------
-    site_object: object
-        an instance of a national site
+    map_api_dict: dictionary
+    a converted API dictionary related to the chosen site
 
     Returns
     -------
@@ -308,6 +321,7 @@ if __name__ == "__main__":
         else:
             print("-"*40)
             print(f"List of national sites in {state.title()}")
+            print("-"*40)
             state_url = np_url_dict[state.lower()]
             state_nps_list = get_sites_for_state(state_url)
             num = 1
@@ -325,6 +339,9 @@ if __name__ == "__main__":
             elif num.isnumeric() and int(num) >= 1 and int(num) <= len(state_nps_list):
                 site_chose = state_nps_list[int(num)-1]
                 site_api_dict = get_nearby_places(site_chose)
+                print("-"*40)
+                print(f"Show places that are near {site_chose.name}")
+                print("-"*40)
                 print_nearby_places(site_api_dict)
             else:
                 print('[Error] Invalid Input')
